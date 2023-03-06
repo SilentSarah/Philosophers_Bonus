@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 11:24:24 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/06 17:37:23 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 18:12:06 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ void	initialize_semaphores(t_args *args)
 
 	memset(&semaphore, 0, sizeof(t_sem));
 	sem_unlink(SEMFORKS);
+	sem_unlink(SEMHOLDFORKS);
 	sem_unlink(SEMMSG);
 	sem_unlink(SEMDEATH);
 	semaphore.res_mgr = sem_open(SEMFORKS, O_CREAT
 			| O_EXCL, 0644, args->n_philos);
+	semaphore.hforks = sem_open(SEMHOLDFORKS, O_CREAT
+			| O_EXCL, 0644, (args->n_philos / 2) + 1);
 	semaphore.msgr = sem_open(SEMMSG, O_CREAT | O_EXCL, 0644, 1);
 	semaphore.death = sem_open(SEMDEATH, O_CREAT
 			| O_EXCL, 0644, args->n_philos);

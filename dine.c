@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:57:01 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/06 17:25:46 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 18:15:11 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	p_eat(t_philo *philo, t_args *args)
 {
+	sem_wait(args->semaphore->hforks);
 	sem_wait(args->semaphore->res_mgr);
 	paction(pick_fork, philo);
 	sem_wait(args->semaphore->res_mgr);
@@ -27,6 +28,7 @@ static void	p_eat(t_philo *philo, t_args *args)
 
 static void	p_sleep(t_philo *philo, t_args *args)
 {
+	sem_post(args->semaphore->hforks);
 	sem_post(args->semaphore->res_mgr);
 	sem_post(args->semaphore->res_mgr);
 	paction(sleeping, philo);
@@ -47,8 +49,9 @@ void	*monitor(void *context)
 		gettime(philo->args);
 		if (philo->args->ts_ms - philo->lt_eaten >= philo->args->t_die)
 		{
+			paction(die, philo);
 			sem_post(philo->args->semaphore->death);
-			exit (0);
+			//exit (0);
 		}
 	}
 }
@@ -63,6 +66,9 @@ void	dine(t_philo *philo, t_args *args)
 		{
 			p_eat(philo, args);
 			p_sleep(philo, args);
+			if (philo->args->nt_eat > 0)
+				if (philo->t_eaten >= philo->args->nt_eat)
+					exit (0);
 		}
 	}
 }

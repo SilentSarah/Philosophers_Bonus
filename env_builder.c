@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:02:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/06 17:36:22 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 18:13:21 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	load_philosopher_data(t_args *args)
 			exitprogram(forking);
 		else if (args->pid == 0)
 		{
-			args->philo_id = i + 1;
+			args->philo_id = i;
 			create_philosophers(args);
 			usleep(1000);
 		}

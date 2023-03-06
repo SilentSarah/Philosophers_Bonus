@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 11:40:38 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/06 17:22:47 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:58:56 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 // SEMAPHORE NAMES
 # define SEMFORKS "/forks"
+# define SEMHOLDFORKS "/heldforks"
 # define SEMMSG "/message"
 # define SEMDEATH "/death"
 
@@ -61,6 +62,7 @@ struct s_semaphores {
 	sem_t	*msgr;
 	sem_t	*res_mgr;
 	sem_t	*death;
+	sem_t	*hforks;
 };
 typedef struct s_semaphores	t_sem;
 
