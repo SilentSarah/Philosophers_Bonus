@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:00:31 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/05 18:27:51 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:31:31 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ void	perror(const char *error_msg)
 
 void	paction(int type, t_philo *philo)
 {
-	sem_wait(philo->args->semaphore->msgr);
+	//sem_wait(philo->args->semaphore->msgr);
 	gettime(philo->args);
 	if (type == pick_fork)
 		printf("%lld %d has taken a fork\n",
-			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
+			philo->args->ts_ms - philo->lt_eaten, philo->id + 1);
 	else if (type == eat)
 		printf("%lld %d is eating\n",
 			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
@@ -84,5 +84,5 @@ void	paction(int type, t_philo *philo)
 	else if (type == die)
 		printf("%lld %d died\n",
 			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
-	sem_post(philo->args->semaphore->msgr);
+	//sem_post(philo->args->semaphore->msgr);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/05 13:00:02 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/05 18:54:30 by hmeftah          ###   ########.fr       */
+/*   Created: 2023/03/06 16:02:19 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/03/06 17:36:22 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,20 @@ void	create_philosophers(t_args *args)
 {
 	t_philo	philo;
 
+	memset(&philo, 0, sizeof(t_philo));
 	philo.args = args;
 	philo.id = args->philo_id;
-	philo.die = false;
-	philo.full = false;
-	philo.lt_eaten = 0;
-	gettime(philo.args);
-	philo.f_eaten = philo.args->ts_ms;
-	pthread_create(&philo.thread, NULL, &dine, &philo);
-	sem_wait(philo.args->semaphore->death);
-	monitor_philosopher(&philo, args);
+	gettime(args);
+	philo.lt_eaten = args->ts_ms;
+	philo.f_eaten = args->ts_ms;
+	philo.t_eaten = 0;
+	sem_wait(args->semaphore->death);
+	dine(&philo, args);
+	pthread_create(&philo.thread, NULL, monitor, &philo);
 	pthread_join(philo.thread, NULL);
-	return ;
 }
 
-void	fork_processes(t_args *args)
+void	load_philosopher_data(t_args *args)
 {
 	int	i;
 
@@ -39,26 +38,17 @@ void	fork_processes(t_args *args)
 	{
 		args->pid = fork();
 		if (args->pid == -1)
-			exitprogram(args, forking);
+			exitprogram(forking);
 		else if (args->pid == 0)
 		{
-			args->philo_id = i;
+			args->philo_id = i + 1;
 			create_philosophers(args);
+			usleep(1000);
 		}
-		else
+		else if (args->pid > 0)
 			args->pids[i] = args->pid;
 	}
-}
-
-void	load_philosopher_data(t_args *args)
-{
-	t_sem	semaphore;
-
-	args->semaphore = &semaphore;
-	args->pids = NULL;
-	args->pids = (int *)malloc(sizeof(int) * args->n_philos);
-	if (!args->pids)
-		exitprogram(args, aloc);
+	usleep(1000);
 }
 
 void	initialize_data(t_args *args, char **av)
@@ -77,6 +67,6 @@ void	initialize_data(t_args *args, char **av)
 		printf(GUIDE);
 		return ;
 	}
-	args->kill_all = false;
+	load_philosopher_data(args);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 11:40:38 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/05 18:25:52 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:22:47 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/time.h> 
+# include <sys/stat.h>
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
 # include <pthread.h>
-# include <sys/time.h> 
 # include <unistd.h>
 # include <stdbool.h>
 # include <signal.h>
 # include <fcntl.h>
-# include <sys/stat.h>
 # include <semaphore.h>
 
+// ERROR MESSAGES
 # define GUIDE "./philo <Number of Philosophers> <Time to die> <Time to eat> \
 <Time to sleep> <OPTIONAL: Number of times each philosopher will eat>\n"
 
@@ -34,6 +35,12 @@
 # define PRC_ERR "Error: Cannot Fork Processes.\n"
 # define ALOC_ERR "Error: Cannot Alocate Resources for a philosopher\n"
 
+// SEMAPHORE NAMES
+# define SEMFORKS "/forks"
+# define SEMMSG "/message"
+# define SEMDEATH "/death"
+
+// ACTIONS IDS
 enum e_actions {
 	eat,
 	sleeping,
@@ -42,12 +49,14 @@ enum e_actions {
 	die,
 };
 
+// ERROR IDS
 enum e_error_types {
 	aloc,
 	sem,
 	forking,
 };
 
+// PHILOSOPHER DATA
 struct s_semaphores {
 	sem_t	*msgr;
 	sem_t	*res_mgr;
@@ -61,12 +70,11 @@ struct s_args {
 	int				n_philos;
 	int				t_die;
 	int				philo_id;
-	int				*pids;
+	int				pids[2000];
 	int				t_eat;
 	int				t_sleep;
 	int				nt_eat;
 	long long		ts_ms;
-	bool			kill_all;
 	struct timeval	time;
 	int				e_philos;
 	int				test_value;
@@ -85,18 +93,17 @@ struct s_philo {
 };
 typedef struct s_philo		t_philo;
 
+// FUNCTIONS LIST
 int		_atoi(const char *str);
 void	gettime(t_args *args);
 void	perror(const char *error_msg);
 void	paction(int type, t_philo *philo);
-void	*dine(void *context);
-void	monitor_philosopher(t_philo *philo, t_args *args);
-void	exitprogram(t_args *args, int type);
+void	dine(t_philo *philo, t_args *args);
+void	exitprogram(int type);
 void	initialize_data(t_args *args, char **av);
 void	load_philosopher_data(t_args *args);
-void	fork_processes(t_args *args);
 void	create_philosophers(t_args *args);
 void	initialize_semaphores(t_args *args);
-void	check_for_dead_philosophers(t_args *args);
-void	msleep(unsigned int ml_sec, t_args *args);
+void	*monitor(void *context);
+void	check_philosophers_status(t_args *args);
 #endif

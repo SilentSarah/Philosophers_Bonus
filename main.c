@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:43:23 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/05 18:54:37 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:22:07 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	initialize_data(&args, av);
+	initialize_semaphores(&args);
 	load_philosopher_data(&args);
-	fork_processes(&args);
-	check_for_dead_philosophers(&args);
+	check_philosophers_status(&args);
 	return (0);
 }
