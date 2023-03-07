@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:00:31 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/06 18:10:41 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/07 13:27:35 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,15 @@ int	_atoi(const char *str)
 	return (res * neg);
 }
 
-void	gettime(t_args *args)
+long long	gettime(void)
 {
-	gettimeofday(&args->time, NULL);
-	args->ts_ms = ((long long)args->time.tv_sec * 1000)
-		+ ((long long)args->time.tv_usec / 1000);
+	long long		ts_ms;
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	ts_ms = ((long long)time.tv_sec * 1000)
+		+ ((long long)time.tv_usec / 1000);
+	return (ts_ms);
 }
 
 void	perror(const char *error_msg)
@@ -67,22 +71,24 @@ void	perror(const char *error_msg)
 
 void	paction(int type, t_philo *philo)
 {
+	long long	ts_ms;
+
+	ts_ms = gettime();
 	sem_wait(philo->args->semaphore->msgr);
-	gettime(philo->args);
 	if (type == pick_fork)
 		printf("%lld %d has taken a fork\n",
-			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
+			ts_ms - philo->f_eaten, philo->id + 1);
 	else if (type == eat)
 		printf("%lld %d is eating\n",
-			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
+			ts_ms - philo->f_eaten, philo->id + 1);
 	else if (type == sleeping)
 		printf("%lld %d is sleeping\n",
-			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
+			ts_ms - philo->f_eaten, philo->id + 1);
 	else if (type == think)
 		printf("%lld %d is thinking\n",
-			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
+			ts_ms - philo->f_eaten, philo->id + 1);
 	else if (type == die)
 		printf("%lld %d died\n",
-			philo->args->ts_ms - philo->f_eaten, philo->id + 1);
+			ts_ms - philo->f_eaten, philo->id + 1);
 	sem_post(philo->args->semaphore->msgr);
 }

@@ -6,15 +6,17 @@
 #    By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/28 16:43:35 by hmeftah           #+#    #+#              #
-#    Updated: 2023/03/06 17:22:24 by hmeftah          ###   ########.fr        #
+#    Updated: 2023/03/07 16:35:40 by hmeftah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# -fsanitize=thread -g USED TO CHECK FOR ANY DATA RACE
 
 NAME = philo_bonus
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 INCLUDE = -I Philosophers.h
-SRC = utilities.c dine.c utilities_support.c env_builder.c
+SRC = utilities.c dine.c utilities_support.c env_builder.c utils_init.c
 MAIN = main.c
 PTHREAD = -pthread
 

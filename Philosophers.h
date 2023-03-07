@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 11:40:38 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/06 17:58:56 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/07 15:13:14 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define SEMHOLDFORKS "/heldforks"
 # define SEMMSG "/message"
 # define SEMDEATH "/death"
+# define SEMFOODCOUNT "/food"
+# define SEMTIMER "/time"
 
 // ACTIONS IDS
 enum e_actions {
@@ -63,12 +65,14 @@ struct s_semaphores {
 	sem_t	*res_mgr;
 	sem_t	*death;
 	sem_t	*hforks;
+	sem_t	*food_count;
 };
 typedef struct s_semaphores	t_sem;
 
 struct s_args {
 	pid_t			pid;
 	t_sem			*semaphore;
+	pthread_t		g_monitor;
 	int				n_philos;
 	int				t_die;
 	int				philo_id;
@@ -76,6 +80,7 @@ struct s_args {
 	int				t_eat;
 	int				t_sleep;
 	int				nt_eat;
+	int				fuel;
 	long long		ts_ms;
 	struct timeval	time;
 	int				e_philos;
@@ -96,16 +101,19 @@ struct s_philo {
 typedef struct s_philo		t_philo;
 
 // FUNCTIONS LIST
-int		_atoi(const char *str);
-void	gettime(t_args *args);
-void	perror(const char *error_msg);
-void	paction(int type, t_philo *philo);
-void	dine(t_philo *philo, t_args *args);
-void	exitprogram(int type);
-void	initialize_data(t_args *args, char **av);
-void	load_philosopher_data(t_args *args);
-void	create_philosophers(t_args *args);
-void	initialize_semaphores(t_args *args);
-void	*monitor(void *context);
-void	check_philosophers_status(t_args *args);
+int			_atoi(const char *str);
+long long	gettime(void);
+void		perror(const char *error_msg);
+void		paction(int type, t_philo *philo);
+void		dine(t_philo *philo, t_args *args);
+void		exitprogram(int type, t_args *args);
+void		initialize_data(t_args *args, char **av);
+void		load_philosopher_data(t_args *args);
+void		create_philosophers(t_args *args);
+void		initialize_semaphores(t_args *args);
+void		*monitor(void *context);
+void		*monitor_food(void *context);
+void		monitor_death(t_args *args);
+t_sem		*semaphore_init(void);
+void		destroy_semaphores(t_args *args);
 #endif

@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 16:43:23 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 15:19:37 by hmeftah          ###   ########.fr       */
+/*   Created: 2023/03/07 11:31:42 by hmeftah           #+#    #+#             */
+/*   Updated: 2023/03/07 16:29:31 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Philosophers.h"
 
-void	run_monitoring(t_args *args)
+t_sem	*semaphore_init(void)
 {
-	pthread_create(&args->g_monitor, NULL, monitor_food, args);
-	monitor_death(args);
-	pthread_join(args->g_monitor, NULL);
+	t_sem	*semaphore;
+
+	semaphore = (t_sem *)malloc(sizeof(t_sem));
+	return (semaphore);
 }
 
-int	main(int ac, char **av)
+void	destroy_semaphores(t_args *args)
 {
-	t_args	args;
-
-	if (ac < 5 || ac > 6)
-	{
-		printf(GUIDE);
-		return (0);
-	}
-	initialize_data(&args, av);
-	initialize_semaphores(&args);
-	load_philosopher_data(&args);
-	run_monitoring(&args);
-	return (0);
+	free (args->semaphore);
 }
