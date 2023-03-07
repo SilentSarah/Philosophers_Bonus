@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 11:24:24 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 16:29:49 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:45:56 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,12 @@ void	exitprogram(int type, t_args *args)
 void	initialize_semaphores(t_args *args)
 {
 	sem_unlink(SEMFORKS);
-	sem_unlink(SEMHOLDFORKS);
 	sem_unlink(SEMMSG);
 	sem_unlink(SEMDEATH);
 	sem_unlink(SEMFOODCOUNT);
 	args->semaphore = semaphore_init();
 	args->semaphore->res_mgr = sem_open(SEMFORKS, O_CREAT
 			| O_EXCL, 0644, args->n_philos);
-	args->semaphore->hforks = sem_open(SEMHOLDFORKS, O_CREAT
-			| O_EXCL, 0644, (args->n_philos / 2));
 	args->semaphore->msgr = sem_open(SEMMSG, O_CREAT | O_EXCL, 0644, 1);
 	args->semaphore->death = sem_open(SEMDEATH, O_CREAT
 			| O_EXCL, 0644, args->n_philos);
@@ -59,7 +56,6 @@ void	*monitor_food(void *context)
 			sem_post(args->semaphore->food_count);
 			if (args->fuel <= 0)
 			{
-				usleep(10000);
 				while (++i < args->n_philos)
 					kill (args->pids[i], SIGKILL);
 				destroy_semaphores(args);

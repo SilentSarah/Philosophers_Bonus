@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 11:31:42 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 16:29:31 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:11:44 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,19 @@ t_sem	*semaphore_init(void)
 void	destroy_semaphores(t_args *args)
 {
 	free (args->semaphore);
+}
+
+void	msleep(int mili_sec)
+{
+	long long	ts_ms;
+	long long	start;
+
+	start = gettime();
+	while (1)
+	{
+		usleep(100);
+		ts_ms = gettime();
+		if (ts_ms - start >= mili_sec)
+			return ;
+	}
 }

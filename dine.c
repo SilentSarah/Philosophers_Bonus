@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:57:01 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 16:13:13 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:05:32 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	p_eat(t_philo *philo, t_args *args)
 	sem_wait(args->semaphore->res_mgr);
 	paction(pick_fork, philo);
 	paction(eat, philo);
-	usleep(args->t_eat * 1000);
+	msleep(args->t_eat);
 	philo->lt_eaten = gettime();
 	philo->t_eaten++;
 }
@@ -29,7 +29,7 @@ static void	p_sleep(t_philo *philo, t_args *args)
 	sem_post(args->semaphore->res_mgr);
 	sem_post(args->semaphore->res_mgr);
 	paction(sleeping, philo);
-	usleep(args->t_sleep * 1000);
+	msleep(args->t_sleep);
 	paction(think, philo);
 }
 

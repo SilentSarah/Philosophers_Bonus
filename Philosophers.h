@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 11:40:38 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 15:13:14 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:05:10 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,5 @@ void		*monitor_food(void *context);
 void		monitor_death(t_args *args);
 t_sem		*semaphore_init(void);
 void		destroy_semaphores(t_args *args);
+void		msleep(int mili_sec);
 #endif
