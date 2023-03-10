@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:02:19 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/10 17:58:44 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/10 20:16:41 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	initialize_data(t_args *args, char **av)
 		args->fuel = 0;
 	}
 	if (args->n_philos <= 0 || args->t_die <= 0 || args->t_eat <= 0
-		|| args->t_sleep <= 0 || args->nt_eat == 0)
+		|| args->t_sleep <= 0 || (args->nt_eat == 0 || args->nt_eat < -1))
 	{
 		printf(GUIDE);
-		return ;
+		exit (1);
 	}
 	return ;
 }
