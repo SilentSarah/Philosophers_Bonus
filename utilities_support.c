@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 11:24:24 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 16:45:56 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:05:37 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ void	monitor_death(t_args *args)
 		kill (args->pids[i], SIGKILL);
 	sem_post(args->semaphore->death);
 	destroy_semaphores(args);
-	exit (0);
+	return ;
 }

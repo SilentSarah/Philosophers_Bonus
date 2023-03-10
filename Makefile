@@ -6,7 +6,7 @@
 #    By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/28 16:43:35 by hmeftah           #+#    #+#              #
-#    Updated: 2023/03/07 16:35:40 by hmeftah          ###   ########.fr        #
+#    Updated: 2023/03/10 18:06:36 by hmeftah          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ INCLUDE = -I Philosophers.h
 SRC = utilities.c dine.c utilities_support.c env_builder.c utils_init.c
 MAIN = main.c
 PTHREAD = -pthread
-
 all: bonus
 
 bonus: $(NAME) $(SRC:.c=.o)

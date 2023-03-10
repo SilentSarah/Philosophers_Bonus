@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:57:01 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 17:05:32 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:49:33 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	dine(t_philo *philo, t_args *args)
 			{
 				philo->full = true;
 				sem_post(philo->args->semaphore->food_count);
+				return ;
 			}
 		}
 	}

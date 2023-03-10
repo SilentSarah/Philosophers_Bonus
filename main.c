@@ -6,7 +6,7 @@
 /*   By: hmeftah <hmeftah@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:43:23 by hmeftah           #+#    #+#             */
-/*   Updated: 2023/03/07 15:19:37 by hmeftah          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:57:45 by hmeftah          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	run_monitoring(t_args *args)
 {
 	pthread_create(&args->g_monitor, NULL, monitor_food, args);
 	monitor_death(args);
-	pthread_join(args->g_monitor, NULL);
+	pthread_detach(args->g_monitor);
 }
 
 int	main(int ac, char **av)
